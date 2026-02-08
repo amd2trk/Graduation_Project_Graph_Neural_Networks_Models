@@ -64,7 +64,7 @@ pip install modal
 modal setup
 modal run Model_v2_with_GAT_and_SageConv_mod_one_modal_functionpy.py
 Configuration
-
+```
 You can edit the CONFIGS list inside the script to add new experiments:
 
 code
@@ -72,6 +72,7 @@ Python
 download
 content_copy
 expand_less
+```python
 CONFIGS = [
     {
         "name": "gatv2_test_run",
@@ -82,6 +83,7 @@ CONFIGS = [
     },
     # Add more configurations here...
 ]
+```
 📊 Outputs
 
 Results are saved to the /data/results folder in the cloud volume:
@@ -96,12 +98,3 @@ confusion_matrix.png: Visual classification performance.
 
 comparison.csv: A final report comparing all trained models.
 
-🛡️ License
-
-This project is open-source and available under the MIT License.
-
-code
-Code
-download
-content_copy
-expand_less

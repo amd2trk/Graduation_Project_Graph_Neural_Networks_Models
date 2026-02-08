@@ -1,116 +1,107 @@
-Here is the updated **Repository Description** and **README.md**. I have customized them to highlight that this is part of your graduation project and to reflect the specific "Comparative Analysis" nature of your work.
+Here is the exact text you need. You can copy and paste these two sections directly.
 
-### 1. Repository Description (GitHub About Section)
+1. Copy this into the "About" (Description) section of your GitHub repo:
 
-**Description:**
-The official training pipeline for my graduation project: "Comparative Analysis of Graph Neural Networks for Malware Detection." Implements parallel training of GCN, GATv2, and GraphSAGE models using PyTorch Geometric and Modal serverless GPUs.
+Description:
+The serverless training pipeline for my graduation project: "Comparative Analysis of GNN Architectures for Malware Detection." Trains GCN, GATv2, and GraphSAGE models in parallel using PyTorch Geometric and Modal GPUs.
 
-**Tags:**
-`pytorch-geometric` `gnn` `malware-detection` `graduation-project` `modal` `deep-learning` `research` `cybersecurity`
+Website/Link:
+https://github.com/EsraaMagdy34/Comparative-Analysis-of-Graph-Neural-Networks-Architecture-for-Malware-Detection-.git
 
----
+2. Copy this into your README.md file:
+code
+Markdown
+download
+content_copy
+expand_less
+# Serverless GNN Training Pipeline for Malware Detection
 
-### 2. README.md file
-
-You can copy the code below into your `README.md`.
-
-```markdown
-# Comparative Analysis of GNN Architectures for Malware Detection
-
-![Status](https://img.shields.io/badge/Status-Graduation%20Project-blue)
+![Status](https://img.shields.io/badge/Project-Graduation%20Thesis-blue)
 ![Python](https://img.shields.io/badge/Python-3.10-3776AB)
 ![PyTorch](https://img.shields.io/badge/PyTorch-Geometric-EE4C2C)
-![Compute](https://img.shields.io/badge/Compute-Modal%20Serverless-00C100)
+![Compute](https://img.shields.io/badge/Modal-Serverless%20GPU-00C100)
 
-> **Note:** This repository contains the source code and training pipeline used for my graduation project. You can view the full project and documentation here: [**EsraaMagdy34/Comparative-Analysis-of-Graph-Neural-Networks-Architecture-for-Malware-Detection-**](https://github.com/EsraaMagdy34/Comparative-Analysis-of-Graph-Neural-Networks-Architecture-for-Malware-Detection-.git)
+This repository contains the high-performance training script used in my graduation project. It leverages **Modal** to train multiple Graph Neural Network (GNN) architectures in parallel on cloud GPUs to classify executable files as Malware or Benign.
 
-## 📖 Project Overview
+> **Main Project Repository:**  
+> 🎓 [**Comparative Analysis of Graph Neural Networks Architecture for Malware Detection**](https://github.com/EsraaMagdy34/Comparative-Analysis-of-Graph-Neural-Networks-Architecture-for-Malware-Detection-.git)
 
-This project evaluates the effectiveness of different Graph Neural Network (GNN) architectures in detecting malware. By treating binary executables as graphs (Control Flow Graphs), we utilize deep learning to identify malicious patterns that traditional signature-based methods might miss.
+## ⚡ Key Capabilities
 
-The system is built to run in a **serverless environment (Modal)**, allowing for parallel training of multiple model configurations on high-end GPUs (L40S).
+*   **Multi-Architecture Support:**  
+    Automatically trains and compares:
+    *   **GCN** (Graph Convolutional Networks)
+    *   **GATv2** (Graph Attention Networks v2)
+    *   **GraphSAGE** (Sample and Aggregate)
+*   **Parallel Execution:**  
+    Uses `modal.map()` to run different model configurations simultaneously on separate **L40S GPUs**.
+*   **Data Integrity:**  
+    Implements a strict **Hash-Based Split** (70/20/10) to ensure no data leakage between training and testing sets (i.e., different versions of the same malware family never appear in both sets).
+*   **Imbalance Handling:**  
+    Native support for `WeightedRandomSampler` and `Focal Loss` to handle dataset imbalance.
 
-## 🧠 Architectures Compared
+## 📂 How It Works
 
-The code implements and compares three distinct GNN layers:
+The script (`Model_v2...py`) is a self-contained pipeline that:
+1.  **Loads Data:** Reads graph embeddings (`.pt` files) from a cloud volume.
+2.  **Configures Models:** Iterates through a defined list of hyperparameters.
+3.  **Trains:** Runs the training loop with early stopping based on Validation F1 score.
+4.  **Evaluates:** Generates Confusion Matrices, ROC-AUC scores, and Accuracy plots.
+5.  **Compares:** Outputs a CSV ranking all models by performance.
 
-1.  **GCN (Graph Convolutional Network):**
-    *   *Role:* The baseline model.
-    *   *Mechanism:* Aggregates features from immediate neighbors using spectral graph convolution.
-2.  **GATv2 (Graph Attention Network):**
-    *   *Role:* The advanced attention-based model.
-    *   *Mechanism:* Uses dynamic attention mechanisms to weigh the importance of specific neighbor nodes (e.g., critical API calls) more heavily than others.
-3.  **GraphSAGE (Sample and Aggregate):**
-    *   *Role:* The scalable model.
-    *   *Mechanism:* Samples fixed-size neighborhoods to generate node embeddings, making it efficient for large graphs.
+## 🛠️ Usage
 
-## 🛠️ Technical Implementation
+### Prerequisites
+*   Python 3.10+
+*   A [Modal](https://modal.com) account
+*   A Modal Volume named `malware-data` containing the dataset.
 
-### Key Features
-*   **Parallel GPU Training:** Utilizes `modal.map()` to train different configurations (e.g., GCN vs GAT) simultaneously on separate isolated containers.
-*   **Strict Data Isolation:** Implements a custom data splitter that segregates data by **unique file hash** (70% Train / 20% Val / 10% Test). This prevents data leakage where different augmentations of the same malware family could bleed into the test set.
-*   **Imbalance Handling:**
-    *   **WeightedRandomSampler:** Oversamples the minority class (Malware) during batch creation.
-    *   **Focal Loss:** Optional loss function to focus learning on hard-to-classify examples.
-*   **Metrics & Visualization:** Automatically generates F1-scores, Confusion Matrices, ROC-AUC, and Training Curves for every run.
+### Running the Pipeline
+To start the parallel training job:
 
-### Dataset Structure
-The model expects pre-processed PyTorch Geometric data objects (`.pt` files) stored in a Modal Volume:
-```text
-/data
-├── ebds/
-│   ├── AE/              # Nodes with AutoEncoder features
-│   └── BERT/            # Nodes with BERT embeddings
-└── ebd_map.csv          # Metadata mapping hashes to labels
-```
-
-## 🚀 Usage
-
-This code is designed to run on [Modal](https://modal.com/).
-
-### 1. Setup
 ```bash
 pip install modal
 modal setup
-```
+modal run Model_v2_with_GAT_and_SageConv_mod_one_modal_functionpy.py
+Configuration
 
-### 2. Configuration
-Modify the `CONFIGS` list in the script to set up your experiments:
-```python
+You can edit the CONFIGS list inside the script to add new experiments:
+
+code
+Python
+download
+content_copy
+expand_less
 CONFIGS = [
     {
-        "name": "gatv2_experiment_1",
+        "name": "gatv2_test_run",
         "model_type": "GATv2",
-        "hidden_dim": 32,
-        "imbalance_method": "weighted_sampler",
-        ...
+        "hidden_dim": 64,
+        "batch_size": 32,
+        "imbalance_method": "weighted_sampler"
     },
-    {
-        "name": "sage_experiment_1",
-        "model_type": "SAGE",
-        ...
-    }
+    # Add more configurations here...
 ]
-```
+📊 Outputs
 
-### 3. Execution
-Run the script to spawn the parallel workers:
-```bash
-modal run Model_v2_with_GAT_and_SageConv_mod_one_modal_functionpy.py
-```
+Results are saved to the /data/results folder in the cloud volume:
 
-## 📊 Results Output
+metrics.json: Detailed performance logs.
 
-After training, the system saves the following to the cloud volume for every model:
-*   **`model.pth`**: The trained model weights.
-*   **`metrics.json`**: Precision, Recall, F1, and Accuracy scores.
-*   **`confusion_matrix.png`**: Visual performance breakdown.
-*   **`training.png`**: Loss and Accuracy over epochs.
-*   **`comparison.csv`**: A summary table ranking all trained models by F1 score.
+model.pth: The best model weights.
 
-## 🔗 Citation / Reference
+training.png: Loss and Accuracy curves.
 
-If you use this code or concepts, please reference the main graduation project repository:
+confusion_matrix.png: Visual classification performance.
 
-> [Comparative Analysis of Graph Neural Networks Architecture for Malware Detection](https://github.com/EsraaMagdy34/Comparative-Analysis-of-Graph-Neural-Networks-Architecture-for-Malware-Detection-.git)
+comparison.csv: A final report comparing all trained models.
 
+🛡️ License
+
+This project is open-source and available under the MIT License.
+
+code
+Code
+download
+content_copy
+expand_less

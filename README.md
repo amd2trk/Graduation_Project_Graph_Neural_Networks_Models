@@ -39,7 +39,6 @@ The code implements and compares three distinct GNN layers:
 
 ### Dataset Structure
 The model expects pre-processed PyTorch Geometric data objects (`.pt` files) stored in a Modal Volume:
-```text
 /data
 ├── ebds/
 │   ├── AE/              # Nodes with Assembly features

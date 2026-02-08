@@ -1,19 +1,3 @@
-Here is the exact text you need. You can copy and paste these two sections directly.
-
-1. Copy this into the "About" (Description) section of your GitHub repo:
-
-Description:
-The serverless training pipeline for my graduation project: "Comparative Analysis of GNN Architectures for Malware Detection." Trains GCN, GATv2, and GraphSAGE models in parallel using PyTorch Geometric and Modal GPUs.
-
-Website/Link:
-https://github.com/EsraaMagdy34/Comparative-Analysis-of-Graph-Neural-Networks-Architecture-for-Malware-Detection-.git
-
-2. Copy this into your README.md file:
-code
-Markdown
-download
-content_copy
-expand_less
 # Serverless GNN Training Pipeline for Malware Detection
 
 ![Status](https://img.shields.io/badge/Project-Graduation%20Thesis-blue)
